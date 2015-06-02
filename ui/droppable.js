@@ -244,14 +244,15 @@ var intersect = (function() {
 			return false;
 		}
 
-		var x1 = ( draggable.positionAbs || draggable.position.absolute ).left + draggable.margins.left,
+		var ieFullscreenFixFactor = (window.self !== window.top && document.msFullscreenElement) ? 100 : 1,
+                        x1 = ( draggable.positionAbs || draggable.position.absolute ).left + draggable.margins.left,
 			y1 = ( draggable.positionAbs || draggable.position.absolute ).top + draggable.margins.top,
 			x2 = x1 + draggable.helperProportions.width,
 			y2 = y1 + draggable.helperProportions.height,
-			l = droppable.offset.left,
-			t = droppable.offset.top,
-			r = l + droppable.proportions().width,
-			b = t + droppable.proportions().height;
+			l = droppable.offset.left * ieFullscreenFixFactor,
+			t = droppable.offset.top  * ieFullscreenFixFactor,
+			r = l + droppable.proportions().width  * ieFullscreenFixFactor,
+			b = t + droppable.proportions().height * ieFullscreenFixFactor;
 
 		switch ( toleranceMode ) {
 		case "fit":
